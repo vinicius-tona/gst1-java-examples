@@ -80,7 +80,7 @@ public class WebRTCSendRecvExample
 
           // final WebRTCSessionDescriptionStruct x =
           // (WebRTCSessionDescriptionStruct) reply.getValue("offer");
-          System.out.println(String.format("Offer [%s]", reply.getValue("sdp")));
+          System.out.println(String.format("Offer [%s]", reply.getValue("offer")));
         }
       };
       System.out.println("Creating promise");
