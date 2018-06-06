@@ -28,10 +28,7 @@ public class WebRTCSendRecvExample
   public static void main(final String[] args)
   {
     System.out.println("Initializing Gst");
-    Gst.init("SendRecv", new String[] {
-        "--gst-debug-level=2",
-        "--gst-debug-no-color"
-    });
+    Gst.init("SendRecv", args);
 
     System.out.println("Creating Pipeline");
     final String description = "webrtcbin name=sendrecv "
@@ -60,7 +57,7 @@ public class WebRTCSendRecvExample
     /* Incoming streams will be exposed via this signal */
     webrtcbin.connect("pad-added", new StreamClosure());
 
-    System.out.println("Pipeline play!\n\n");
+    System.out.println("Pipeline play!\n");
     pipeline.play();
   }
 
@@ -69,7 +66,6 @@ public class WebRTCSendRecvExample
     public void invoke(final Element element)
     {
       System.out.println(String.format("on-negotiation-needed called with element [%s]", element));
-
       final GstCallback callback = new GstCallback()
       {
         @SuppressWarnings("unused")
@@ -80,6 +76,11 @@ public class WebRTCSendRecvExample
           System.out.println(String.format("Waited, getting reply..."));
           final Structure reply = promise.getReply();
           System.out.println(String.format("Reply response [%s]", reply));
+          // System.out.println(String.format("Fields [%s]", reply.getFields()));
+
+          // final WebRTCSessionDescriptionStruct x =
+          // (WebRTCSessionDescriptionStruct) reply.getValue("offer");
+          System.out.println(String.format("Offer [%s]", reply.getValue("sdp")));
         }
       };
       System.out.println("Creating promise");
